@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Projects;
 use App\Models\ProjectTasks;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 
@@ -20,9 +21,15 @@ class ProjectsTableSeeder extends Seeder
         $projects = Projects::factory()->count(10)->create();
 
         // Untuk setiap Post, buat 10 Comment
-        $projects->each(function ($post) {
+        $projects->each(function ($projects) {
+
+            $date_start = Carbon::now();
+            $date_end = Carbon::now();
+
             ProjectTasks::factory()->count(10)->create([
-                'project_id' => $post->id,
+                'start_task' => $projects->status == 'finish' ? $date_start->subDays(rand(4, 5)) : $date_start->addDays(rand(1, 2)),
+                'end_task' => $projects->status == 'finish' ? $date_end->subDays(rand(1, 3)) : $date_end->addDays(rand(3, 5)),
+                'project_id' => $projects->id,
             ]);
         });
     }

@@ -18,6 +18,7 @@ class CreateProjectsTable extends Migration
             $table->string('project_name');
             $table->timestamp('start_project', $precision = 0);
             $table->timestamp('end_project', $precision = 0);
+            $table->enum('status', ['finish', 'on progress', 'delay']);
             $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();
         });
