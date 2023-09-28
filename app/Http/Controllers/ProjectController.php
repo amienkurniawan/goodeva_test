@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Charts\ProjectTasksChart;
 use App\Charts\TotalProjectsChart;
 use App\Models\Projects;
 use Illuminate\Http\Request;
@@ -40,6 +41,37 @@ class ProjectController extends Controller
             'finish_project' => $finish_project,
             'delay_project' => $delay_project,
             'list_projects' => $list_projects
+        ]);
+    }
+
+    public function show_task_project($id)
+    {
+        $project = Projects::with('tasks')->find($id);
+        $on_progress_task = 0;
+        $finish_task = 0;
+        $delay_task = 0;
+
+        foreach ($project->tasks as $task) {
+            if ($task->status == 'on progress') {
+                $on_progress_task++;
+            }
+            if ($task->status == 'delay') {
+                $delay_task++;
+            }
+            if ($task->status == 'finish') {
+                $finish_task++;
+            }
+        };
+
+        $larapex = new LarapexChart();
+        $chart = new ProjectTasksChart($larapex);
+        $chart->setTitle('Total Task');
+        $chart->setData([$on_progress_task, $finish_task, $delay_task]);
+        $chart->setLabel(["on progress", "finish", "delay"]);
+
+        return view('projects.view', [
+            'project' => $project,
+            'chart' => $chart->build()
         ]);
     }
 

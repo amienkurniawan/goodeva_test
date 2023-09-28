@@ -9,4 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 class Projects extends Model
 {
     use HasFactory, SoftDeletes;
+
+    public function tasks()
+    {
+        return $this->hasMany(ProjectTasks::class);
+    }
 }

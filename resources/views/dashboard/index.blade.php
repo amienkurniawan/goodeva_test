@@ -112,8 +112,9 @@
                         <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-options"></use>
                       </svg>
                     </button>
-                    <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#">Info</a><a
-                        class="dropdown-item" href="#">Edit</a><a class="dropdown-item text-danger" href="#">Delete</a>
+                    <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item"
+                        href="{{route('project.task.show',['id'=>$list->id])}}">Info</a><a class="dropdown-item"
+                        href="#">Edit</a><a class="dropdown-item text-danger" href="#">Delete</a>
                     </div>
                   </div>
                 </td>

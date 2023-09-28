@@ -9,4 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ProjectTasks extends Model
 {
     use HasFactory, SoftDeletes;
+
+    public function project()
+    {
+        return $this->belongsTo(Projects::class, 'id', 'project_id');
+    }
 }

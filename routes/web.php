@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProjectTasksController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +15,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/',  [ProjectController::class, 'index']);
 Route::get('/pdf',  [ProjectController::class, 'export_pdf']);
+
+Route::group(['prefix' => 'project'], function () {
+
+  Route::group(['prefix' => 'task'], function () {
+    Route::get('/{id}',  [ProjectController::class, 'show_task_project'])->name('project.task.show');
+  });
+});
