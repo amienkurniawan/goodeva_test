@@ -10,16 +10,8 @@
   </div>
   <!-- /.col-->
   <div class="col-sm-6 col-lg-6">
-    <div class="card mb-4 text-white bg-info">
-      <div class="card-body pb-0 d-flex justify-content-between align-items-start">
-        <div>
-          <div class="fs-4 fw-semibold"></div>
-          <div>On Progress</div>
-        </div>
-      </div>
-      <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
-        <canvas class="chart" id="card-chart2" height="70"></canvas>
-      </div>
+    <div class="card mb-4 text-white bg-white">
+      {!! $piechart->container() !!}
     </div>
   </div>
 </div>
@@ -48,7 +40,7 @@
               <tr class="align-middle">
                 <td>
                   <div>{{$list->task_name}}</div>
-                  <div class="small text-medium-emphasis"><span></span> Start Project: {{$list->start_task}}</div>
+                  <div class="small text-medium-emphasis"><span></span> Start Task: {{$list->start_task}}</div>
                 </td>
 
                 <td>
@@ -80,6 +72,8 @@
 </div>
 <!-- /.row-->
 <script src="{{ $chart->cdn() }}"></script>
+<script src="{{ $piechart->cdn() }}"></script>
 
 {{ $chart->script() }}
+{{ $piechart->script() }}
 @endsection

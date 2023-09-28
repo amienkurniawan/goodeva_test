@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Charts\ProjectTasksChart;
+use App\Charts\ProjectTasksPieChart;
 use App\Charts\TotalProjectsChart;
 use App\Models\Projects;
 use Illuminate\Http\Request;
@@ -69,9 +70,15 @@ class ProjectController extends Controller
         $chart->setData([$on_progress_task, $finish_task, $delay_task]);
         $chart->setLabel(["on progress", "finish", "delay"]);
 
+        $piechart = new ProjectTasksPieChart($larapex);
+        $piechart->setTitle('Total Task');
+        $piechart->setData([$on_progress_task, $finish_task, $delay_task]);
+        $piechart->setLabel(["on progress", "finish", "delay"]);
+
         return view('projects.view', [
             'project' => $project,
-            'chart' => $chart->build()
+            'chart' => $chart->build(),
+            'piechart' => $piechart->build(),
         ]);
     }
 
