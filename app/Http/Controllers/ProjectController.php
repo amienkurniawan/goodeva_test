@@ -31,11 +31,15 @@ class ProjectController extends Controller
         $delay_project = new Projects();
         $delay_project = $delay_project->where('status', '=', 'delay')->count();
 
+        $list_projects = new Projects();
+        $list_projects = $list_projects->get();
+
         return view('dashboard.index', [
             'total_project' => $total_project,
             'onprogress_project' => $onprogress_project,
             'finish_project' => $finish_project,
-            'delay_project' => $delay_project
+            'delay_project' => $delay_project,
+            'list_projects' => $list_projects
         ]);
     }
 
