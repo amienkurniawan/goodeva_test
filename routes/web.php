@@ -15,3 +15,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/',  [ProjectController::class, 'index']);
+Route::get('/pdf',  [ProjectController::class, 'export_pdf']);
