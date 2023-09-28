@@ -19,16 +19,17 @@ class ProjectsTableSeeder extends Seeder
     {
         // Buat 10 Post
         $projects = Projects::factory()->count(10)->create();
-
+        $status = ['finish', 'on progress', 'delay'];
         // Untuk setiap Post, buat 10 Comment
-        $projects->each(function ($projects) {
+        $projects->each(function ($projects) use ($status) {
 
             $date_start = Carbon::now();
             $date_end = Carbon::now();
 
             ProjectTasks::factory()->count(10)->create([
-                'start_task' => $projects->status == 'finish' ? $date_start->subDays(rand(4, 5)) : $date_start->addDays(rand(1, 2)),
-                'end_task' => $projects->status == 'finish' ? $date_end->subDays(rand(1, 3)) : $date_end->addDays(rand(3, 5)),
+                'start_task' => $projects->status === 'finish' ? $date_start->subDays(rand(4, 5)) : $date_start->addDays(rand(1, 2)),
+                'end_task' => $projects->status === 'finish' ? $date_end->subDays(rand(1, 3)) : $date_end->addDays(rand(3, 5)),
+                'status' => $projects->status === 'finish' ? $status[0] : $status[rand(1, 2)],
                 'project_id' => $projects->id,
             ]);
         });
