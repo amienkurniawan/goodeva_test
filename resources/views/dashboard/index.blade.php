@@ -124,6 +124,9 @@
           </table>
         </div>
       </div>
+      <div class="d-flex justify-content-center">
+        {{ $list_projects->links('pagination::bootstrap-4') }}
+      </div>
     </div>
   </div>
   <!-- /.col-->

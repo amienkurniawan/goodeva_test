@@ -34,7 +34,7 @@ class ProjectController extends Controller
         $delay_project = $delay_project->where('status', '=', 'delay')->count();
 
         $list_projects = new Projects();
-        $list_projects = $list_projects->get();
+        $list_projects = $list_projects->paginate(10);
 
         return view('dashboard.index', [
             'total_project' => $total_project,
@@ -47,7 +47,7 @@ class ProjectController extends Controller
 
     public function show_task_project($id)
     {
-        $project = Projects::with('tasks')->find($id);
+        $project = Projects::with('tasks')->findOrFail($id);
         $on_progress_task = 0;
         $finish_task = 0;
         $delay_task = 0;
