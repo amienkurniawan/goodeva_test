@@ -30,7 +30,7 @@ class ProjectsTableSeeder extends Seeder
                 'start_task' => $projects->status === 'finish' ? $date_start->subDays(rand(4, 5)) : $date_start->addDays(rand(1, 2)),
                 'end_task' => $projects->status === 'finish' ? $date_end->subDays(rand(1, 3)) : $date_end->addDays(rand(3, 5)),
                 'status' => $projects->status === 'finish' ? $status[0] : $status[rand(1, 2)],
-                'project_id' => $projects->id,
+                'projects_id' => $projects->id,
             ]);
         });
     }

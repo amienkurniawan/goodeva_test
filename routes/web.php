@@ -23,5 +23,7 @@ Route::group(['prefix' => 'project'], function () {
 
   Route::group(['prefix' => 'task'], function () {
     Route::get('/{id}',  [ProjectController::class, 'show_task_project'])->name('project.task.show');
+
+    Route::patch('/update/{id}', [ProjectTasksController::class, 'change_status_task'])->name('project.task.update.status');
   });
 });

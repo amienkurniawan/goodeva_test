@@ -32,6 +32,7 @@
                 <th>Tasks</th>
                 <th>Status</th>
                 <th></th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -42,24 +43,29 @@
                   <div>{{$list->task_name}}</div>
                   <div class="small text-medium-emphasis"><span></span> Start Task: {{$list->start_task}}</div>
                 </td>
-
                 <td>
                   <div class="fw-semibold">{{$list->status}}</div>
                 </td>
-                <td>
-                  <div class="dropdown">
-                    <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="false">
-                      <svg class="icon">
-                        <use xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-options')}}"></use>
-                      </svg>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item"
-                        href="http://localhost:8000/project/task/1">Info</a><a class="dropdown-item" href="#">Edit</a><a
-                        class="dropdown-item text-danger" href="#">Delete</a>
+                <form action="{{route('project.task.update.status',['id'=>$list->id])}}" method="post">
+                  @method('patch')
+                  @csrf
+                  <td>
+                    <div class="dropdown">
+                      <select class="form-select" name="status" aria-label="Default select example">
+                        <option value="on progress" {{ old('status')=='on progress' ? 'selected' : '' }} {{$list->status
+                          == "on progress" ? 'selected':''}}>On Progress
+                        </option>
+                        <option value="finish" {{ old('status')=='finish' ? 'selected' : '' }} {{$list->status ==
+                          "finish" ? 'selected':''}}>Finish</option>
+                        <option value="delay" {{ old('status')=='delay' ? 'selected' : '' }} {{$list->status == "delay"
+                          ? 'selected':''}}>Delay</option>
+                      </select>
                     </div>
-                  </div>
-                </td>
+                  </td>
+                  <td>
+                    <button type="submit" class="btn btn-primary" type="button">Update</button>
+                  </td>
+                </form>
               </tr>
               @endforeach
             </tbody>
