@@ -50,9 +50,40 @@ class ProjectTasksController extends Controller
    */
   public function edit_task_project($id)
   {
-    return $id;
+    $data = ProjectTasks::find($id);
+    return view('tasks.form', ['data' => $data, 'project_id' => $data->projects_id, 'edit' => true]);
   }
 
+  public function update_task_project(Request $request, $id)
+  {
+    try {
+      // data import excel
+      $validator = Validator::make($request->all(), [
+        'task_name' => 'required',
+        'start_task' => 'required',
+        'end_task' => 'required',
+      ]);
+
+      if ($validator->fails()) {
+        return redirect()->back()->withErrors($validator)
+          ->withInput();
+      }
+
+      $task = ProjectTasks::findOrFail($id);
+      $task->task_name = $request->input('task_name');
+      $task->start_task = $request->input('start_task');
+      $task->end_task = $request->input('end_task');
+
+      if ($task->save()) {
+        return redirect()->route('project.task.show', ['id' => $task->projects_id])->with('success', 'Berhasil mengubah data task!');
+      } else {
+        return redirect()->back()->with('error', 'Gagal mengubah data task!');
+      }
+    } catch (\Throwable $th) {
+      Log::error('Failed mengubah data project, please check!', [$th->getMessage()]);
+      return redirect()->back()->with('error', 'Gagal mengubah data task, cek code server!');
+    }
+  }
   /**
    * function untuk membuat data task
    */
