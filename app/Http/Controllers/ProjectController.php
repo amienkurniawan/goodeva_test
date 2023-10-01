@@ -12,6 +12,7 @@ use ArielMejiaDev\LarapexCharts\LarapexChart;
 use App\Exports\ProjectsExport;
 use App\Exports\ProjectsFormatExport;
 use App\Imports\MasterImportProject;
+use App\Models\ProjectTasks;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
@@ -61,6 +62,27 @@ class ProjectController extends Controller
     public function form_project()
     {
         return view('projects.form');
+    }
+    /**
+     * function to softdelete data project
+     */
+    public function delete_project($id)
+    {
+        try {
+
+            $project = Projects::find($id);
+            $task = ProjectTasks::where('projects_id', '=', $id)->delete();
+
+            if ($project->delete() && $task) {
+                return redirect()->route('index.project')->with('success', 'Berhasil menghapus data project!');
+            } else {
+                return redirect()->route('index.project')->with('error', 'Berhasil menghapus data project!');
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            Log::error('Failed delete data project, please check!', [$th->getMessage()]);
+            return redirect()->route('index.project')->with('error', 'Berhasil menghapus data project!');
+        }
     }
 
     /**

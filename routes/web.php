@@ -27,6 +27,7 @@ Route::group(['prefix' => 'project'], function () {
   Route::get('/create', [ProjectController::class, 'form_project'])->name('create.project');
   Route::post('/import', [ProjectController::class, 'import_projects'])->name('import.project');
   Route::post('/store', [ProjectController::class, 'create_project'])->name('save.project');
+  Route::delete('/delete/{id}', [ProjectController::class, 'delete_project'])->name('delete.project');
 
   Route::group(['prefix' => 'task'], function () {
     Route::get('/{id}',  [ProjectController::class, 'show_task_project'])->name('project.task.show');

@@ -129,8 +129,13 @@
                       </svg>
                     </button>
                     <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item"
-                        href="{{route('project.task.show',['id'=>$list->id])}}">Info</a><a class="dropdown-item"
-                        href="#">Edit</a><a class="dropdown-item text-danger" href="#">Delete</a>
+                        href="{{route('project.task.show',['id'=>$list->id])}}">Info</a>
+                      <a class="dropdown-item" href="#">Edit</a>
+                      <form action="{{route('delete.project',['id'=>$list->id])}}" method="post">
+                        {{ csrf_field() }}
+                        @method('delete')
+                        <button class="dropdown-item text-danger" type="submit">Delete</button>
+                      </form>
                     </div>
                   </div>
                 </td>
