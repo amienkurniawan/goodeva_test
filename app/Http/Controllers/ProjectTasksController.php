@@ -18,7 +18,7 @@ class ProjectTasksController extends Controller
       $task = ProjectTasks::find($id);
       if (!$task) {
         // Handle jika pengguna tidak ditemukan
-        return redirect()->route('laporan.index')->with('error', 'Data task tidak ditemukan');
+        return redirect()->back()->with('error', 'Data task tidak ditemukan');
       }
 
       //code...

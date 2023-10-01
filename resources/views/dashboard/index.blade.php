@@ -70,11 +70,20 @@
       <div class="card-header">Projects</div>
       <div class="card-body">
         <div class="col-auto">
-          <a href="{{route('export.pdf.project')}}" class="btn btn-info" type="button">Export PDF</a>
-          <a href="{{route('export.project')}}" class="btn btn-primary">Export Excel</a><!-- Button trigger modal -->
-          <button type="button" class="btn btn-light" data-coreui-toggle="modal" data-coreui-target="#exampleModal">
-            Import Project
-          </button>
+          <div class="row">
+            <div class="col-md-2">
+              <a href="{{route('create.project')}}" class="btn btn-primary" type="button">Create Project</a>
+            </div>
+            <div class="col-md-6"></div>
+            <div class="col-md-4">
+              <a href="{{route('export.pdf.project')}}" class="btn btn-info" type="button">Export PDF</a>
+              <a href="{{route('export.project')}}" class="btn btn-primary">Export Excel</a>
+              <!-- Button trigger modal -->
+              <button type="button" class="btn btn-light" data-coreui-toggle="modal" data-coreui-target="#exampleModal">
+                Import Project
+              </button>
+            </div>
+          </div>
         </div>
         <!-- /.row--><br>
         <div class="table-responsive">

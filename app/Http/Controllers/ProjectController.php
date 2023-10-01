@@ -56,6 +56,46 @@ class ProjectController extends Controller
     }
 
     /**
+     * function to show data project
+     */
+    public function form_project()
+    {
+        return view('projects.form');
+    }
+
+    /**
+     * function to create data project
+     */
+    public function create_project(Request $request)
+    {
+        try {
+            // data import excel
+            $validator = Validator::make($request->all(), [
+                'project_name' => 'required',
+                'start_project' => 'required',
+                'end_project' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return $validator->errors();
+            }
+
+            $project = new Projects();
+            $project->project_name = $request->input('project_name');
+            $project->start_project = $request->input('start_project');
+            $project->end_project = $request->input('end_project');
+
+            if ($project->save()) {
+                return redirect()->route('index.project')->with('success', 'Berhasil membuat data project!');
+            } else {
+                return redirect()->route('index.project')->with('error', 'Gagal membuat data project!');
+            }
+        } catch (\Throwable $th) {
+            Log::error('Failed import data data project, please check!', [$th->getMessage()]);
+            return redirect()->route('index.project')->with('error', 'Gagal membuat data project, cek code server!');
+        }
+    }
+    /**
      * function to show task project
      */
     public function show_task_project($id)

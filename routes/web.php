@@ -24,7 +24,9 @@ Route::group(['prefix' => 'project'], function () {
   Route::get('/pdf',  [ProjectController::class, 'export_pdf'])->name('export.pdf.project');
   Route::get('/export', [ProjectController::class, 'download_export_projects'])->name('export.project');
   Route::get('/format-import', [ProjectController::class, 'format_import_projects'])->name('format.import.project');
+  Route::get('/create', [ProjectController::class, 'form_project'])->name('create.project');
   Route::post('/import', [ProjectController::class, 'import_projects'])->name('import.project');
+  Route::post('/store', [ProjectController::class, 'create_project'])->name('save.project');
 
   Route::group(['prefix' => 'task'], function () {
     Route::get('/{id}',  [ProjectController::class, 'show_task_project'])->name('project.task.show');
