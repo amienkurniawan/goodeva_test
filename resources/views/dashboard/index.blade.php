@@ -112,8 +112,9 @@
                     <div class="float-start">
                       <div class="fw-semibold">{{$percentage}}%</div>
                     </div>
-                    <div class="float-end"><small class="text-medium-emphasis">Jun 11, 2020 - Jul 10,
-                        2020</small></div>
+                    <div class="float-end"><small
+                        class="text-medium-emphasis">{{date('d-M-Y',strtotime($list->start_project))}} -
+                        {{date('d-M-Y',strtotime($list->end_project))}}</small></div>
                   </div>
                   <div class="progress progress-thin">
                     <div class="progress-bar {{$list->status == 'delay' ? 'bg-danger'  : 'bg-success'}}"
