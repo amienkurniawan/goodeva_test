@@ -110,7 +110,7 @@
                     ?>
                   <div class="clearfix">
                     <div class="float-start">
-                      <div class="fw-semibold">{{$percentage}}%</div>
+                      <div class="fw-semibold">{{number_format($percentage,1)}}%</div>
                     </div>
                     <div class="float-end"><small
                         class="text-medium-emphasis">{{date('d-M-Y',strtotime($list->start_project))}} -
