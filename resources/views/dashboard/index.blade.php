@@ -70,7 +70,7 @@
       <div class="card-header">Projects</div>
       <div class="card-body">
         <div class="col-auto">
-          <button class="btn btn-info" type="button">Export PDF</button>
+          <a href="{{route('export.pdf.project')}}" class="btn btn-info" type="button">Export PDF</a>
           <a href="{{route('export.project')}}" class="btn btn-primary">Export Excel</a><!-- Button trigger modal -->
           <button type="button" class="btn btn-light" data-coreui-toggle="modal" data-coreui-target="#exampleModal">
             Import Project

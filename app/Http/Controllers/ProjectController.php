@@ -19,6 +19,9 @@ use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class ProjectController extends Controller
 {
+    /**
+     * function to show main dashboard
+     */
     public function index()
     {
 
@@ -52,6 +55,9 @@ class ProjectController extends Controller
         ]);
     }
 
+    /**
+     * function to show task project
+     */
     public function show_task_project($id)
     {
         $project = Projects::with('tasks')->findOrFail($id);
@@ -88,8 +94,9 @@ class ProjectController extends Controller
             'piechart' => $piechart->build(),
         ]);
     }
+
     /**
-     * function download item material
+     * function download format import project
      */
     public function format_import_projects()
     {
@@ -140,12 +147,14 @@ class ProjectController extends Controller
         }
     }
 
-    public function export_pdf(TotalProjectsChart $chart)
+    /**
+     * function to download pdf file
+     */
+    public function export_pdf()
     {
-
-        $pdf = PDF::loadView('dashboard.index', ['chart' => $chart->build()]);
-
-        return $pdf->download('user.pdf');
+        $list_projects = Projects::get();
+        $pdf = PDF::loadView('pdf.projects', ['list_projects' => $list_projects]);
+        return $pdf->download('projects.pdf');
     }
 
     private function insert_data_project($datas)
