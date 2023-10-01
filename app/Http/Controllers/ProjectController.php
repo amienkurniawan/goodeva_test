@@ -44,8 +44,13 @@ class ProjectController extends Controller
         $delay_project = new Projects();
         $delay_project = $delay_project->where('status', '=', 'delay')->count();
 
-        $list_projects = new Projects();
-        $list_projects = $list_projects->paginate(10);
+
+        $list_projects = Projects::withCount([
+            'tasks',
+            'tasks as tasks_finish' => function ($query) {
+                $query->where('status', '=', 'finish');
+            }
+        ])->paginate(10);
 
         return view('dashboard.index', [
             'total_project' => $total_project,
@@ -63,6 +68,7 @@ class ProjectController extends Controller
     {
         return view('projects.form');
     }
+
     /**
      * function to softdelete data project
      */
@@ -150,7 +156,7 @@ class ProjectController extends Controller
         $piechart->setData([$on_progress_task, $finish_task, $delay_task]);
         $piechart->setLabel(["on progress", "finish", "delay"]);
 
-        return view('projects.view', [
+        return view('tasks.view', [
             'project' => $project,
             'chart' => $chart->build(),
             'piechart' => $piechart->build(),

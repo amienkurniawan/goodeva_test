@@ -104,16 +104,21 @@
                   <div class="small text-medium-emphasis"><span></span> Start Project: {{$list->start_project}}</div>
                 </td>
                 <td>
+                  <?php 
+                    $percentage = $list->tasks_finish == 0 ? "0" :
+                        ($list->tasks_finish/$list->tasks_count)*100;
+                    ?>
                   <div class="clearfix">
                     <div class="float-start">
-                      <div class="fw-semibold">50%</div>
+                      <div class="fw-semibold">{{$percentage}}%</div>
                     </div>
                     <div class="float-end"><small class="text-medium-emphasis">Jun 11, 2020 - Jul 10,
                         2020</small></div>
                   </div>
                   <div class="progress progress-thin">
                     <div class="progress-bar {{$list->status == 'delay' ? 'bg-danger'  : 'bg-success'}}"
-                      role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+                      role="progressbar" style="width: {{$percentage}}%" aria-valuenow="{{$percentage}}"
+                      aria-valuemin="0" aria-valuemax="100">
                     </div>
                   </div>
                 </td>
