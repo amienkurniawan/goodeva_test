@@ -9,6 +9,13 @@ use App\Models\Projects;
 use Illuminate\Http\Request;
 use PDF;
 use ArielMejiaDev\LarapexCharts\LarapexChart;
+use App\Exports\ProjectsExport;
+use App\Exports\ProjectsFormatExport;
+use App\Imports\MasterImportProject;
+use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Validator;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class ProjectController extends Controller
 {
@@ -81,6 +88,57 @@ class ProjectController extends Controller
             'piechart' => $piechart->build(),
         ]);
     }
+    /**
+     * function download item material
+     */
+    public function format_import_projects()
+    {
+        return Excel::download(new ProjectsFormatExport, 'import-format-project.xlsx');
+    }
+
+    /**
+     * function download projects
+     */
+    public function download_export_projects()
+    {
+        return Excel::download(new ProjectsExport, 'export-project.xlsx');
+    }
+    /**
+     * function to import data project
+     */
+    public function import_projects(Request $request)
+    {
+        try {
+            // data import excel
+            $validator = Validator::make($request->all(), [
+                'import_file' => 'required|mimes:xls,xlsx',
+            ]);
+
+            if ($validator->fails()) {
+                return $validator->errors();
+            }
+
+            if ($request->hasFile('import_file')) {
+
+                $datas = Excel::toArray(new MasterImportProject, request()->file('import_file'));
+
+                $result  = $this->insert_data_project($datas[0]);
+                // return Date::excelToDateTimeObject($datas['project_start']);
+
+                if ($result) {
+                    return redirect()->route('index.project')->with('success', 'Success melakukan import data project!');
+                } else {
+                    return redirect()->route('index.project')->with('error', 'Gagal melakukan import data project!');
+                }
+            } else {
+                Log::error('Failed import data item stock opname, please check!');
+                return redirect()->route('index.project')->with('error', 'Gagal melakukan import data project, file tidak ditemukan!');
+            }
+        } catch (\Throwable $th) {
+            Log::error('Failed import data data project, please check!', [$th->getMessage()]);
+            return redirect()->route('index.project')->with('error', 'Gagal melakukan import data project, cek code server!');
+        }
+    }
 
     public function export_pdf(TotalProjectsChart $chart)
     {
@@ -88,5 +146,23 @@ class ProjectController extends Controller
         $pdf = PDF::loadView('dashboard.index', ['chart' => $chart->build()]);
 
         return $pdf->download('user.pdf');
+    }
+
+    private function insert_data_project($datas)
+    {
+        try {
+            foreach ($datas as $data) {
+                Projects::create([
+                    'project_name'  => $data['project_name'],
+                    'start_project' => Date::excelToDateTimeObject($data['project_start']),
+                    'end_project' => Date::excelToDateTimeObject($data['project_end']),
+                ]);
+            }
+            return true;
+        } catch (\Throwable $th) {
+            //throw $th;
+            Log::error('Failed import data data project, please check!', [$th->getMessage()]);
+            return false;
+        }
     }
 }

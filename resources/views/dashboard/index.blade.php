@@ -69,6 +69,13 @@
     <div class="card mb-4">
       <div class="card-header">Projects</div>
       <div class="card-body">
+        <div class="col-auto">
+          <button class="btn btn-info" type="button">Export PDF</button>
+          <a href="{{route('export.project')}}" class="btn btn-primary">Export Excel</a><!-- Button trigger modal -->
+          <button type="button" class="btn btn-light" data-coreui-toggle="modal" data-coreui-target="#exampleModal">
+            Import Project
+          </button>
+        </div>
         <!-- /.row--><br>
         <div class="table-responsive">
           <table class="table border mb-0">
@@ -123,6 +130,45 @@
             </tbody>
           </table>
         </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <form method="post" action="{{ route('import.project') }}" enctype="multipart/form-data">
+                {{ csrf_field() }}
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Import data project</h5>
+                  <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="input-group">
+                        <input type="file" class="form-control" name="import_file" id="inputGroupFile04"
+                          aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                      </div>
+                    </div>
+                  </div>
+                  <br />
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <a href="{{route('format.import.project')}}" class="btn btn-primary">Download Format</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal">Close</button>
+                  <button class="btn btn-primary" type="submit">Import</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+
       </div>
       <div class="d-flex justify-content-center">
         {{ $list_projects->links('pagination::bootstrap-4') }}
