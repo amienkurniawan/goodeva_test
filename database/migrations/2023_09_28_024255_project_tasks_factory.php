@@ -19,7 +19,7 @@ class ProjectTasksFactory extends Migration
             $table->string('task_name');
             $table->timestamp('start_task', $precision = 0);
             $table->timestamp('end_task', $precision = 0);
-            $table->enum('status', ['finish', 'on progress', 'delay']);
+            $table->enum('status', ['finish', 'on progress', 'delay'])->default('on progress');
             $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();
 

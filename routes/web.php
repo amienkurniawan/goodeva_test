@@ -34,6 +34,15 @@ Route::group(['prefix' => 'project'], function () {
 
   Route::group(['prefix' => 'task'], function () {
     Route::get('/{id}',  [ProjectController::class, 'show_task_project'])->name('project.task.show');
-    Route::patch('/update/{id}', [ProjectTasksController::class, 'change_status_task'])->name('project.task.update.status');
+
+    Route::get('/create/{id}',  [ProjectTasksController::class, 'create_task_project'])->name('project.task.create');
+    Route::post('/store/{id}',  [ProjectTasksController::class, 'store_task_project'])->name('project.task.store');
+
+    Route::get('/edit/{id}',  [ProjectTasksController::class, 'edit_task_project'])->name('project.task.edit');
+    Route::put('/update/{id}',  [ProjectTasksController::class, 'update_task_project'])->name('project.task.update');
+
+    Route::delete('/delete/{id}',  [ProjectTasksController::class, 'delete_task_project'])->name('project.task.delete');
+
+    Route::patch('/update-status/{id}', [ProjectTasksController::class, 'change_status_task'])->name('project.task.update.status');
   });
 });

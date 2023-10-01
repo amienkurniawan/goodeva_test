@@ -131,7 +131,7 @@
                     <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
                       aria-haspopup="true" aria-expanded="false">
                       <svg class="icon">
-                        <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-options"></use>
+                        <use xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-options')}}"></use>
                       </svg>
                     </button>
                     <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item"

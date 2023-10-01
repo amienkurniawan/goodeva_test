@@ -24,6 +24,14 @@
     <div class="card mb-4">
       <div class="card-header">Tasks</div>
       <div class="card-body">
+
+
+        <div class="row">
+          <div class="col-md-2">
+            <a href="{{route('project.task.create',['id'=>$project->id])}}" class="btn btn-primary" type="button">Create
+              Task</a>
+          </div>
+        </div>
         <!-- /.row--><br>
         <div class="table-responsive">
           <table class="table border mb-0">
@@ -31,6 +39,7 @@
               <tr class="align-middle">
                 <th>Tasks</th>
                 <th>Status</th>
+                <th></th>
                 <th></th>
                 <th></th>
               </tr>
@@ -50,22 +59,41 @@
                   @method('patch')
                   @csrf
                   <td>
-                    <div class="dropdown">
-                      <select class="form-select" name="status" aria-label="Default select example">
-                        <option value="on progress" {{ old('status')=='on progress' ? 'selected' : '' }} {{$list->status
-                          == "on progress" ? 'selected':''}}>On Progress
-                        </option>
-                        <option value="finish" {{ old('status')=='finish' ? 'selected' : '' }} {{$list->status ==
-                          "finish" ? 'selected':''}}>Finish</option>
-                        <option value="delay" {{ old('status')=='delay' ? 'selected' : '' }} {{$list->status == "delay"
-                          ? 'selected':''}}>Delay</option>
-                      </select>
-                    </div>
+
+                    <select class="form-select" name="status" aria-label="Default select example">
+                      <option value="on progress" {{ old('status')=='on progress' ? 'selected' : '' }} {{$list->status
+                        == "on progress" ? 'selected':''}}>On Progress
+                      </option>
+                      <option value="finish" {{ old('status')=='finish' ? 'selected' : '' }} {{$list->status ==
+                        "finish" ? 'selected':''}}>Finish</option>
+                      <option value="delay" {{ old('status')=='delay' ? 'selected' : '' }} {{$list->status == "delay"
+                        ? 'selected':''}}>Delay</option>
+                    </select>
+
                   </td>
                   <td>
                     <button type="submit" class="btn btn-primary" type="button">Update</button>
                   </td>
                 </form>
+                <td>
+                  <div class="dropdown">
+                    <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
+                      aria-haspopup="true" aria-expanded="false">
+                      <svg class="icon">
+                        <use xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-options')}}"></use>
+                      </svg>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end">
+                      <a class="dropdown-item" href="{{route('project.task.edit',['id'=>$list->id])}}">Edit</a>
+                      <form action="{{route('project.task.delete',['id'=>$list->id])}}" method="post">
+                        {{ csrf_field() }}
+                        @method('delete')
+                        <button class="dropdown-item text-danger" type="submit">Delete</button>
+                      </form>
+                    </div>
+                  </div>
+                </td>
+
               </tr>
               @endforeach
             </tbody>
