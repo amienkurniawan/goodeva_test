@@ -96,4 +96,24 @@ class ProjectTasksController extends Controller
       return redirect()->route('project.task.show', ['id' => $id])->with('error', 'Gagal membuat data task, cek code server!');
     }
   }
+
+  /**
+   * function to delete task project
+   */
+  public function delete_task_project($id)
+  {
+    try {
+      $task = ProjectTasks::findOrFail($id);
+
+      if ($task->delete()) {
+        return redirect()->back()->with('success', 'Berhasil menghapus data task!');
+      } else {
+        return redirect()->back()->with('error', 'Berhasil menghapus data task!');
+      }
+    } catch (\Throwable $th) {
+      //throw $th;
+      Log::error('Failed delete data task, please check!', [$th->getMessage()]);
+      return redirect()->back()->with('error', 'Berhasil menghapus data task!');
+    }
+  }
 }
