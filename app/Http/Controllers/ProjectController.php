@@ -66,9 +66,50 @@ class ProjectController extends Controller
      */
     public function form_project()
     {
-        return view('projects.form');
+        return view('projects.form', ['edit' => false]);
     }
 
+    /**
+     * function to edit project
+     */
+    public function edit($id)
+    {
+        $data = Projects::find($id);
+        return view('projects.form', ['data' => $data, 'edit' => true]);
+    }
+    /**
+     * function to update project
+     */
+    public function update_project(Request $request, $id)
+    {
+        try {
+            // data import excel
+            $validator = Validator::make($request->all(), [
+                'project_name' => 'required',
+                'start_project' => 'required',
+                'end_project' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)
+                    ->withInput();
+            }
+
+            $project = Projects::find($id);
+            $project->project_name = $request->input('project_name');
+            $project->start_project = $request->input('start_project');
+            $project->end_project = $request->input('end_project');
+
+            if ($project->save()) {
+                return redirect()->route('index.project')->with('success', 'Berhasil mengubah data project!');
+            } else {
+                return redirect()->route('index.project')->with('error', 'Gagal mengubah data project!');
+            }
+        } catch (\Throwable $th) {
+            Log::error('Failed mengubah data project, please check!', [$th->getMessage()]);
+            return redirect()->route('index.project')->with('error', 'Gagal mengubah data project, cek code server!');
+        }
+    }
     /**
      * function to softdelete data project
      */
@@ -97,7 +138,7 @@ class ProjectController extends Controller
     public function create_project(Request $request)
     {
         try {
-            // data import excel
+            // data validation
             $validator = Validator::make($request->all(), [
                 'project_name' => 'required',
                 'start_project' => 'required',
@@ -105,7 +146,8 @@ class ProjectController extends Controller
             ]);
 
             if ($validator->fails()) {
-                return $validator->errors();
+                return redirect()->back()->withErrors($validator)
+                    ->withInput();
             }
 
             $project = new Projects();
@@ -119,7 +161,7 @@ class ProjectController extends Controller
                 return redirect()->route('index.project')->with('error', 'Gagal membuat data project!');
             }
         } catch (\Throwable $th) {
-            Log::error('Failed import data data project, please check!', [$th->getMessage()]);
+            Log::error('Failed create data project, please check!', [$th->getMessage()]);
             return redirect()->route('index.project')->with('error', 'Gagal membuat data project, cek code server!');
         }
     }

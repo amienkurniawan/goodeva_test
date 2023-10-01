@@ -25,6 +25,9 @@ Route::group(['prefix' => 'project'], function () {
   Route::get('/export', [ProjectController::class, 'download_export_projects'])->name('export.project');
   Route::get('/format-import', [ProjectController::class, 'format_import_projects'])->name('format.import.project');
   Route::get('/create', [ProjectController::class, 'form_project'])->name('create.project');
+  Route::get('/edit/{id}', [ProjectController::class, 'edit'])->name('edit.project');
+  Route::put('/update/{id}', [ProjectController::class, 'update_project'])->name('update.project');
+
   Route::post('/import', [ProjectController::class, 'import_projects'])->name('import.project');
   Route::post('/store', [ProjectController::class, 'create_project'])->name('save.project');
   Route::delete('/delete/{id}', [ProjectController::class, 'delete_project'])->name('delete.project');

@@ -136,7 +136,7 @@
                     </button>
                     <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item"
                         href="{{route('project.task.show',['id'=>$list->id])}}">Info</a>
-                      <a class="dropdown-item" href="#">Edit</a>
+                      <a class="dropdown-item" href="{{route('edit.project',['id'=>$list->id])}}">Edit</a>
                       <form action="{{route('delete.project',['id'=>$list->id])}}" method="post">
                         {{ csrf_field() }}
                         @method('delete')
